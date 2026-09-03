@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asistente Multidiagnóstico para Jardinería</title>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #212529;
+            --accent-color: #0d6efd;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
+            scroll-behavior: smooth;
+        }
+
+        #inicio { scroll-margin-top: 20px; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: #1b4332;
+        }
+
+        /* Menú rápido */
+        .menu-rapido {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .menu-btn {
+            background: white;
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        /* Columnas */
+        .grid-columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .column {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .column h2 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            border-bottom: 2px solid #2d6a4f;
+            padding-bottom: 8px;
+            color: #2d6a4f;
+        }
+
+        .checkbox-group {
+            flex-grow: 1;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .checkbox-item input {
+            margin-top: 3px;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        /* Botones de acción */
+        .actions {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-clear {
+            background-color: #e2e3e5;
+            color: #383d41;
+            border: 1px solid #d6d8db;
+        }
+
+        .btn-top {
+            background-color: #212529;
+            color: white;
+        }
+
+        /* Panel de diagnóstico */
+        .panel-resultados {
+            margin-top: 30px;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .resultado-card {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+        }
+
+        .resultado-card h4 {
+            margin: 0 0 5px 0;
+            color: #856404;
+        }
+
+        .resultado-card p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="inicio"></div>
+    <header>
+        <h1>🌱 Asistente Multidiagnóstico para Jardinería</h1>
+        <p>Selecciona <strong>todos los síntomas</strong> que observes en la planta para obtener el tratamiento fitosanitario inmediato.</p>
+    </header>
+
+    <div class="menu-rapido">
+        <a href="#sintomas-hojas" class="menu-btn">🍃 Hojas</a>
+        <a href="#sintomas-tallos" class="menu-btn">🪵 Tallos</a>
+        <a href="#problemas-cultivo" class="menu-btn">🧪 Cultivo</a>
+    </div>
+
+    <form id="diagForm">
+        <div class="grid-columns">
+            <div class="column" id="sintomas-hojas">
+                <h2>🍃 Síntomas en Hojas</h2>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="PULGÓN"> ¿Las hojas nuevas están deformadas y hay moho oscuro sobre ellas?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="CÁPSIDO VERDE COMÚN"> ¿Las hojas nuevas están deformadas (sin moho)?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="CÁPSIDO VERDE COMÚN"> ¿Los bordes son la parte más afectada de la hoja?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="ABEJA ASERRADORA"> ¿Los agujeros son regulares y en forma semicircular?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="BABOSAS / CARACOLES"> ¿Son agujeros grandes e irregulares con rastro plateado?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="GORGOJOS ADULTOS"> ¿Son agujeros grandes e irregulares (sin rastro plateado)?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="ORUGAS"> ¿Hay agujeros por toda la hoja?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="CÁPSIDO VERDE COMÚN"> ¿Hay agujeros con el borde marrón?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="ARAÑA ROJA"> ¿Hay pequeños insectos y puestas de huevos diminutos?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="VIRUS"> ¿Hay brotes atrofiados o deformados?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="VIRUS"> ¿Las hojas están moteadas o tienen manchas?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="MOSCA BLANCA"> ¿Las hojas tienen grandes manchas o parches?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="MILDIU PULVERULENTO"> ¿Hay manchas blancas y aterciopeladas?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="BOTRITIS"> ¿Hay un moho gris y aterciopelado en las hojas?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="FALTA DE LUZ NATURAL"> ¿Las hojas jaspeadas se vuelven marrones?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="FALTA DE POTASIO"> ¿La planta ya no florece?</label>
+                </div>
+                <div class="actions">
+                    <button type="button" class="btn btn-clear" onclick="limpiarFormulario()">🧹 Limpiar Selección</button>
+                    <a href="#inicio" class="btn btn-top">⬆️ Ir Arriba</a>
+                </div>
+            </div>
+
+            <div class="column" id="sintomas-tallos">
+                <h2>🪵 Síntomas en Tallos</h2>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="LARVAS DE GORGOJO"> ¿Los tallos se marchitan y caen?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="PODREDUMBRE APICAL"> ¿Los tallos están secándose?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="PODREDUMBRE APICAL"> ¿Parece que los tallos y las hojas están quemados/muertos?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="QUEMADURA DE LAS HOJAS"> ¿Los tallos y hojas están dañados pero la planta sobrevive?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="COCHINILLA"> ¿Hay moho en los tallos (negro/polvoriento)?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="BOTRITIS"> ¿Hay moho en los tallos (gris/aterciopelado)?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="COCHINILLA"> ¿Hay gotas de líquido marrón en los tallos?</label>
+                </div>
+                <div class="actions">
+                    <button type="button" class="btn btn-clear" onclick="limpiarFormulario()">🧹 Limpiar Selección</button>
+                    <a href="#inicio" class="btn btn-top">⬆️ Ir Arriba</a>
+                </div>
+            </div>
+
+            <div class="column" id="problemas-cultivo">
+                <h2>🧪 Problemas de Cultivo</h2>
+                <div class="checkbox-group">
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="EXCESO DE ABONO O LIMITACIÓN DE ESPACIO"> ¿Las hojas se vuelven marrones sólo por la punta?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="QUEMADURA DE LAS HOJAS POR EL VIENTO"> ¿Las hojas se vuelven marrones por los bordes?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="SUELO ALCALINO"> ¿Las hojas se vuelven amarillas y es una planta ácida?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="PODREDUMBRE"> ¿El suelo de la planta está anegado?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="FALTA DE NITROGENO / TIERRA ESTÉRIL"> ¿Las hojas son pálidas y demasiado pequeñas?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="DESHOJE NATURAL"> ¿Las hojas se caen tras volverse amarillas?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="EXCESO DE AGUA"> ¿Primero se vuelven marrones las hojas?</label>
+                    <label class="checkbox-item"><input type="checkbox" name="sintoma" value="PLANTA ESTRESADA"> ¿La planta ha perdido todas las hojas de golpe?</label>
+                </div>
+                <div class="actions">
+                    <button type="button" class="btn btn-clear" onclick="limpiarFormulario()">🧹 Limpiar Selección</button>
+                    <a href="#inicio" class="btn btn-top">⬆️ Ir Arriba</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="panel-resultados">
+        <h2>📋 Panel de Diagnósticos Encontrados</h2>
+        <div id="resultadosContainer">
+            <p style="color: #6c757d;">No se ha marcado ningún síntoma. Revisa la planta y marca las casillas correspondientes.</p>
+        </div>
+    </div>
+
+    <footer>
+        © 2026 www.jardineriaypaisajismo.com
+    </footer>
+</div>
+
+<script>
+    const DICCIONARIO_TRATAMIENTOS = {
+        "PULGÓN": "Tratamiento biológico con jabón potásico (2%) y aceite de neem. En ataques severos, emplear piretrinas naturales.",
+        "CÁPSIDO VERDE COMÚN": "Monitorear brotaciones. Aplicar tratamientos al atardecer con jabón fosfórico o piretroides autorizados.",
+        "ABEJA ASERRADORA": "El daño es estético. No usar químicos drásticos. Colocar barreras físicas o favorecer biodiversidad.",
+        "GORGOJOS ADULTOS": "Tratamiento nocturno sacudiendo ramas sobre una manta. Aplicar nematodos entomopatógenos al suelo.",
+        "BABOSAS / CARACOLES": "Trampas de cerveza o tierra de diatomeas alrededor del tallo. En infestaciones graves, cebos de fosfato férrico.",
+        "ORUGAS": "Recogida manual o tratamiento biológico con Bacillus thuringiensis (var. kurstaki) sobre hojas tiernas.",
+        "ARAÑA ROJA": "Aumentar humedad pulverizando agua. Aplicar azufre mojable o ácaro depredador Phytoseiulus persimilis.",
+        "VIRUS": "Sin tratamiento curativo. Arrancar y destruir la planta afectada para evitar contagios. Controlar vectores.",
+        "MILDIU PULVERULENTO": "Eliminar restos afectados. Aplicar fungicidas a base de azufre, bicarbonato potásico o cola de caballo.",
+        "BOTRITIS": "Reducir humedad foliar y riego. Podar partes afectadas. Aplicar Bacillus subtilis o cobre.",
+        "MOSCA BLANCA": "Trampas cromáticas amarillas. Tratar con jabón potásico y aceite de neem.",
+        "LARVAS DE GORGOJO": "Aplicar nematodos entomopatógenos (Steinernema carpocapsae) al suelo mediante riego.",
+        "PODREDUMBRE APICAL": "Regularizar riego. Corregir deficiencia de Calcio (Ca) mediante pulverizaciones foliares.",
+        "QUEMADURA DE LAS HOJAS": "Proporcionar sombreado provisional y ajustar frecuencia de riego.",
+        "COCHINILLA": "Limpieza manual con alcohol. En ataques graves, aceite de verano con insecticida sistémico.",
+        "EXCESO DE ABONO O LIMITACIÓN DE ESPACIO": "Lavado de suelo con riego abundante. Si la maceta es pequeña, trasplantar.",
+        "QUEMADURA DE LAS HOJAS POR EL VIENTO": "Instalar barreras cortavientos. Incrementar riegos en días de viento seco.",
+        "SUELO ALCALINO": "Aplicar quelatos de hierro (Fe) al riego. Acidificar sustrato con turba rubia o azufre.",
+        "PODREDUMBRE": "Suspender riegos de inmediato. Mejorar drenaje aportando perlita o arena.",
+        "FALTA DE NITROGENO / TIERRA ESTÉRIL": "Aportar materia orgánica (humus de lombriz/compost) y abono rico en Nitrógeno.",
+        "DESHOJE NATURAL": "Proceso fisiológico normal en hojas viejas. Retirar hojas secas caídas.",
+        "EXCESO DE AGUA": "Detener riego inmediatamente y verificar drenaje. Dejar secar el sustrato.",
+        "PLANTA ESTRESADA": "Evitar mover la planta. Suspender abono hasta estabilizar. Mantener riegos moderados.",
+        "FALTA DE LUZ NATURAL": "Trasladar de forma progresiva a ubicación con mayor luz indirecta.",
+        "FALTA DE POTASIO": "Aplicar fertilizante rico en Potasio (K) antes y durante la floración."
+    };
+
+    const form = document.getElementById('diagForm');
+    const resultadosContainer = document.getElementById('resultadosContainer');
+
+    form.addEventListener('change', actualizarDiagnostico);
+
+    function actualizarDiagnostico() {
+        const checkedBoxes = document.querySelectorAll('input[name="sintoma"]:checked');
+        const seleccionados = new Set();
+        
+        checkedBoxes.forEach(box => seleccionados.add(box.value));
+
+        if (seleccionados.size === 0) {
+            resultadosContainer.innerHTML = '<p style="color: #6c757d;">No se ha marcado ningún síntoma. Revisa la planta y marca las casillas correspondientes.</p>';
+            return;
+        }
+
+        let html = `<p style="color: #198754; font-weight: bold;">Se han detectado ${seleccionados.size} problema(s) simultáneos:</p>`;
+        
+        seleccionados.forEach(problema => {
+            const solucion = DICCIONARIO_TRATAMIENTOS[problema] || "Se recomienda consulta con un técnico agrícola.";
+            html += `
+                <div class="resultado-card">
+                    <h4>🚨 ${problema}</h4>
+                    <p><strong>🛠️ Tratamiento:</strong> ${solucion}</p>
+                </div>
+            `;
+        });
+
+        resultadosContainer.innerHTML = html;
+    }
+
+    function limpiarFormulario() {
+        form.reset();
+        actualizarDiagnostico();
+    }
+</script>
+
+</body>
+</html>
