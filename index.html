@@ -5,169 +5,234 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asistente Multidiagnóstico para Jardinería</title>
     <style>
+        /* Tipografía y escala de color fiel a Streamlit */
         :root {
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-color: #212529;
-            --accent-color: #0d6efd;
-            --border-color: #dee2e6;
+            --bg-color: #ffffff;
+            --card-bg: #f8f9fa;
+            --text-color: #262730;
+            --secondary-text: #555867;
+            --primary-green: #2d6a4f;
+            --border-color: #e6e8eb;
+            --btn-hover-bg: #e0e2e6;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 15px;
+            padding: 12px;
+            font-size: 14px; /* Tamaño de fuente compacto estilo Streamlit */
+            line-height: 1.4;
             scroll-behavior: smooth;
         }
 
-        #inicio { scroll-margin-top: 20px; }
+        #inicio { scroll-margin-top: 10px; }
 
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
         header {
-            text-align: center;
-            margin-bottom: 20px;
+            text-align: left;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
         }
 
         h1 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            color: #1b4332;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+            color: #111827;
+            letter-spacing: -0.02em;
         }
 
-        /* Menú rápido */
+        header p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+        }
+
+        /* Menú rápido estilo Streamlit */
         .menu-rapido {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            background: #e9ecef;
-            padding: 10px;
+            gap: 8px;
+            background: #f0f2f6;
+            padding: 6px 8px;
             border-radius: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .menu-btn {
-            background: white;
+            background: #ffffff;
             color: var(--text-color);
-            padding: 8px 16px;
+            padding: 4px 12px;
             border-radius: 6px;
             text-decoration: none;
-            font-weight: bold;
-            border: 1px solid var(--border-color);
-            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid #d6d6d6;
+            font-size: 0.82rem;
+            transition: all 0.15s ease-in-out;
         }
 
-        /* Columnas */
+        .menu-btn:hover {
+            background: var(--btn-hover-bg);
+            border-color: #b0b0b0;
+        }
+
+        /* Rejilla responsive hiperadaptable */
         .grid-columns {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
         }
 
         .column {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 12px;
             display: flex;
             flex-direction: column;
         }
 
         .column h2 {
-            font-size: 1.2rem;
-            margin-top: 0;
-            border-bottom: 2px solid #2d6a4f;
-            padding-bottom: 8px;
-            color: #2d6a4f;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin: 0 0 10px 0;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--primary-green);
+            color: var(--primary-green);
         }
 
         .checkbox-group {
             flex-grow: 1;
         }
 
+        /* Casillas estilo Streamlit (márgenes estrechos y texto legible) */
         .checkbox-item {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
             cursor: pointer;
+            color: #31333f;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: background 0.1s ease;
+        }
+
+        .checkbox-item:hover {
+            background-color: #eaecef;
         }
 
         .checkbox-item input {
-            margin-top: 3px;
+            margin-top: 2px;
             margin-right: 8px;
             cursor: pointer;
+            accent-color: var(--primary-green);
         }
 
-        /* Botones de acción */
+        /* Botones de acción dentro de columna */
         .actions {
-            margin-top: 15px;
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .btn {
-            padding: 8px;
+            padding: 6px 10px;
             border: none;
             border-radius: 6px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
             text-align: center;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.82rem;
+            transition: background 0.15s ease;
         }
 
         .btn-clear {
-            background-color: #e2e3e5;
-            color: #383d41;
-            border: 1px solid #d6d8db;
+            background-color: #ffffff;
+            color: var(--text-color);
+            border: 1px solid #d6d6d6;
+        }
+
+        .btn-clear:hover {
+            background-color: var(--btn-hover-bg);
         }
 
         .btn-top {
-            background-color: #212529;
-            color: white;
+            background-color: #0e1117;
+            color: #ffffff !important;
+            border: 1px solid #31333f;
         }
 
-        /* Panel de diagnóstico */
+        .btn-top:hover {
+            background-color: #262730;
+        }
+
+        /* Panel de diagnóstico estilo st.alert / st.info */
         .panel-resultados {
-            margin-top: 30px;
-            background: white;
+            margin-top: 20px;
+            background: #ffffff;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 20px;
+            padding: 16px;
+        }
+
+        .panel-resultados h2 {
+            font-size: 1.15rem;
+            margin-top: 0;
+            margin-bottom: 12px;
+            color: #111827;
         }
 
         .resultado-card {
-            background: #fff3cd;
-            border-left: 5px solid #ffc107;
-            padding: 12px;
-            margin-bottom: 12px;
+            background: #fff8e6;
+            border-left: 4px solid #ffc107;
+            padding: 10px 12px;
+            margin-bottom: 10px;
             border-radius: 4px;
         }
 
         .resultado-card h4 {
-            margin: 0 0 5px 0;
+            margin: 0 0 4px 0;
             color: #856404;
+            font-size: 0.92rem;
+            font-weight: 700;
         }
 
         .resultado-card p {
             margin: 0;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
+            color: #333333;
         }
 
         footer {
             text-align: center;
-            margin-top: 40px;
-            font-size: 0.85rem;
-            color: #6c757d;
+            margin-top: 30px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.8rem;
+            color: var(--secondary-text);
+        }
+
+        /* Ajustes específicos de pantalla táctil / móvil */
+        @media (max-width: 600px) {
+            body { padding: 8px; font-size: 13.5px; }
+            h1 { font-size: 1.3rem; }
+            .grid-columns { grid-template-columns: 1fr; }
+            .checkbox-item { margin-bottom: 10px; font-size: 0.83rem; }
         }
     </style>
 </head>
@@ -188,6 +253,7 @@
 
     <form id="diagForm">
         <div class="grid-columns">
+            <!-- COLUMNA 1: HOJAS -->
             <div class="column" id="sintomas-hojas">
                 <h2>🍃 Síntomas en Hojas</h2>
                 <div class="checkbox-group">
@@ -214,6 +280,7 @@
                 </div>
             </div>
 
+            <!-- COLUMNA 2: TALLOS -->
             <div class="column" id="sintomas-tallos">
                 <h2>🪵 Síntomas en Tallos</h2>
                 <div class="checkbox-group">
@@ -231,6 +298,7 @@
                 </div>
             </div>
 
+            <!-- COLUMNA 3: CULTIVO -->
             <div class="column" id="problemas-cultivo">
                 <h2>🧪 Problemas de Cultivo</h2>
                 <div class="checkbox-group">
@@ -251,15 +319,16 @@
         </div>
     </form>
 
+    <!-- PANEL DE RESULTADOS -->
     <div class="panel-resultados">
         <h2>📋 Panel de Diagnósticos Encontrados</h2>
         <div id="resultadosContainer">
-            <p style="color: #6c757d;">No se ha marcado ningún síntoma. Revisa la planta y marca las casillas correspondientes.</p>
+            <p style="color: #6c757d; font-size: 0.85rem;">No se ha marcado ningún síntoma. Revisa la planta y marca las casillas correspondientes.</p>
         </div>
     </div>
 
     <footer>
-       © 2026 <a href="https://biodyversidad.blogspot.com/" target="_blank" style="color: #6c757d; text-decoration: underline;">www.jardineriaypaisajismo.com</a>
+        © 2026 <a href="https://biodyversidad.blogspot.com/" target="_blank" style="color: #6c757d; text-decoration: underline;">www.jardineriaypaisajismo.com</a>
     </footer>
 </div>
 
@@ -304,11 +373,11 @@
         checkedBoxes.forEach(box => seleccionados.add(box.value));
 
         if (seleccionados.size === 0) {
-            resultadosContainer.innerHTML = '<p style="color: #6c757d;">No se ha marcado ningún síntoma. Revisa la planta y marca las casillas correspondientes.</p>';
+            resultadosContainer.innerHTML = '<p style="color: #6c757d; font-size: 0.85rem;">No se ha marcado ningún síntoma. Revisa la planta y marca las casillas correspondientes.</p>';
             return;
         }
 
-        let html = `<p style="color: #198754; font-weight: bold;">Se han detectado ${seleccionados.size} problema(s) simultáneos:</p>`;
+        let html = `<p style="color: #198754; font-weight: bold; margin-bottom: 8px; font-size: 0.88rem;">Se han detectado ${seleccionados.size} problema(s) simultáneos:</p>`;
         
         seleccionados.forEach(problema => {
             const solucion = DICCIONARIO_TRATAMIENTOS[problema] || "Se recomienda consulta con un técnico agrícola.";
