@@ -2,10 +2,17 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Viewport fijado sin auto-escalado agresivo -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Asistente Multidiagnóstico para Jardinería</title>
     <style>
-        /* Tipografía y escala de color fiel a Streamlit */
+        /* Bloquear reescalado automático de texto en navegadores móviles (iOS/Android) */
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
         :root {
             --bg-color: #ffffff;
             --card-bg: #f8f9fa;
@@ -25,9 +32,9 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 12px;
-            font-size: 14px; /* Tamaño de fuente compacto estilo Streamlit */
-            line-height: 1.4;
+            padding: 10px;
+            font-size: 13px; /* Tamaño reducido de base */
+            line-height: 1.35;
             scroll-behavior: smooth;
         }
 
@@ -40,13 +47,13 @@
 
         header {
             text-align: left;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
             border-bottom: 1px solid var(--border-color);
         }
 
         h1 {
-            font-size: 1.5rem;
+            font-size: 1.35rem;
             font-weight: 700;
             margin: 0 0 4px 0;
             color: #111827;
@@ -55,60 +62,53 @@
 
         header p {
             margin: 0;
-            font-size: 0.9rem;
+            font-size: 0.82rem;
             color: var(--secondary-text);
         }
 
-        /* Menú rápido estilo Streamlit */
+        /* Menú rápido compacto */
         .menu-rapido {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             background: #f0f2f6;
-            padding: 6px 8px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
+            padding: 5px;
+            border-radius: 6px;
+            margin-bottom: 14px;
             justify-content: center;
         }
 
         .menu-btn {
             background: #ffffff;
             color: var(--text-color);
-            padding: 4px 12px;
-            border-radius: 6px;
+            padding: 3px 10px;
+            border-radius: 4px;
             text-decoration: none;
             font-weight: 600;
             border: 1px solid #d6d6d6;
-            font-size: 0.82rem;
-            transition: all 0.15s ease-in-out;
+            font-size: 0.78rem;
         }
 
-        .menu-btn:hover {
-            background: var(--btn-hover-bg);
-            border-color: #b0b0b0;
-        }
-
-        /* Rejilla responsive hiperadaptable */
+        /* Rejilla de columnas */
         .grid-columns {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 12px;
+            gap: 10px;
         }
 
         .column {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px;
+            border-radius: 6px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
         }
 
         .column h2 {
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             font-weight: 600;
-            margin: 0 0 10px 0;
-            padding-bottom: 6px;
+            margin: 0 0 8px 0;
+            padding-bottom: 4px;
             border-bottom: 2px solid var(--primary-green);
             color: var(--primary-green);
         }
@@ -117,48 +117,43 @@
             flex-grow: 1;
         }
 
-        /* Casillas estilo Streamlit (márgenes estrechos y texto legible) */
+        /* Casillas compactas idénticas a Streamlit */
         .checkbox-item {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
+            margin-bottom: 6px;
+            font-size: 0.8rem; /* Fuente pequeña y condensada */
             cursor: pointer;
             color: #31333f;
-            padding: 2px 4px;
-            border-radius: 4px;
-            transition: background 0.1s ease;
-        }
-
-        .checkbox-item:hover {
-            background-color: #eaecef;
+            padding: 2px;
+            border-radius: 3px;
         }
 
         .checkbox-item input {
-            margin-top: 2px;
-            margin-right: 8px;
+            margin-top: 1px;
+            margin-right: 6px;
             cursor: pointer;
             accent-color: var(--primary-green);
+            transform: scale(0.9); /* Checkbox ligeramente más fino */
         }
 
-        /* Botones de acción dentro de columna */
+        /* Botones de acción */
         .actions {
-            margin-top: 10px;
+            margin-top: 8px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 5px;
         }
 
         .btn {
-            padding: 6px 10px;
+            padding: 5px 8px;
             border: none;
-            border-radius: 6px;
+            border-radius: 4px;
             font-weight: 600;
             cursor: pointer;
             text-align: center;
             text-decoration: none;
-            font-size: 0.82rem;
-            transition: background 0.15s ease;
+            font-size: 0.78rem;
         }
 
         .btn-clear {
@@ -167,72 +162,70 @@
             border: 1px solid #d6d6d6;
         }
 
-        .btn-clear:hover {
-            background-color: var(--btn-hover-bg);
-        }
-
         .btn-top {
             background-color: #0e1117;
             color: #ffffff !important;
             border: 1px solid #31333f;
         }
 
-        .btn-top:hover {
-            background-color: #262730;
-        }
-
-        /* Panel de diagnóstico estilo st.alert / st.info */
+        /* Panel de diagnóstico estilo st.alert */
         .panel-resultados {
-            margin-top: 20px;
+            margin-top: 16px;
             background: #ffffff;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 16px;
+            border-radius: 6px;
+            padding: 12px;
         }
 
         .panel-resultados h2 {
-            font-size: 1.15rem;
+            font-size: 1rem;
             margin-top: 0;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             color: #111827;
         }
 
         .resultado-card {
             background: #fff8e6;
-            border-left: 4px solid #ffc107;
-            padding: 10px 12px;
-            margin-bottom: 10px;
-            border-radius: 4px;
+            border-left: 3px solid #ffc107;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            border-radius: 3px;
         }
 
         .resultado-card h4 {
-            margin: 0 0 4px 0;
+            margin: 0 0 3px 0;
             color: #856404;
-            font-size: 0.92rem;
+            font-size: 0.85rem;
             font-weight: 700;
         }
 
         .resultado-card p {
             margin: 0;
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             color: #333333;
         }
 
         footer {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 10px;
+            margin-top: 20px;
+            padding-top: 8px;
             border-top: 1px solid var(--border-color);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--secondary-text);
         }
 
-        /* Ajustes específicos de pantalla táctil / móvil */
+        /* Fuerza la escala pequeña en pantallas móviles sin agrandar el texto */
         @media (max-width: 600px) {
-            body { padding: 8px; font-size: 13.5px; }
-            h1 { font-size: 1.3rem; }
+            body { 
+                padding: 6px; 
+                font-size: 12px !important; 
+            }
+            h1 { font-size: 1.15rem; }
             .grid-columns { grid-template-columns: 1fr; }
-            .checkbox-item { margin-bottom: 10px; font-size: 0.83rem; }
+            .checkbox-item { 
+                font-size: 0.78rem !important; 
+                margin-bottom: 6px;
+            }
         }
     </style>
 </head>
@@ -323,7 +316,7 @@
     <div class="panel-resultados">
         <h2>📋 Panel de Diagnósticos Encontrados</h2>
         <div id="resultadosContainer">
-            <p style="color: #6c757d; font-size: 0.85rem;">No se ha marcado ningún síntoma. Revisa la planta y marca las casillas correspondientes.</p>
+            <p style="color: #6c757d; font-size: 0.78rem;">No se ha marcado ningún síntoma. Revisa la planta y marca las casillas correspondientes.</p>
         </div>
     </div>
 
@@ -373,11 +366,11 @@
         checkedBoxes.forEach(box => seleccionados.add(box.value));
 
         if (seleccionados.size === 0) {
-            resultadosContainer.innerHTML = '<p style="color: #6c757d; font-size: 0.85rem;">No se ha marcado ningún síntoma. Revisa la planta y marca las casillas correspondientes.</p>';
+            resultadosContainer.innerHTML = '<p style="color: #6c757d; font-size: 0.78rem;">No se ha marcado ningún síntoma. Revisa la planta y marca las casillas correspondientes.</p>';
             return;
         }
 
-        let html = `<p style="color: #198754; font-weight: bold; margin-bottom: 8px; font-size: 0.88rem;">Se han detectado ${seleccionados.size} problema(s) simultáneos:</p>`;
+        let html = `<p style="color: #198754; font-weight: bold; margin-bottom: 6px; font-size: 0.82rem;">Se han detectado ${seleccionados.size} problema(s) simultáneos:</p>`;
         
         seleccionados.forEach(problema => {
             const solucion = DICCIONARIO_TRATAMIENTOS[problema] || "Se recomienda consulta con un técnico agrícola.";
